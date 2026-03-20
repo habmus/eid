@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eid Mubarak, Karimat</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --deep-blue: #07111f;
+    --navy: #0e1e38;
+    --mid-blue: #1a3a6e;
+    --sky: #2e6db4;
+    --light-blue: #7ab3e0;
+    --pale-blue: #c8dff5;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+  }
+
+  body {
+    background: var(--deep-blue);
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: var(--op); }
+  }
+
+  /* Shooting star */
+  .shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: shoot 6s linear infinite;
+    opacity: 0;
+  }
+
+  .shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6));
+  }
+
+  @keyframes shoot {
+    0% { top: 10%; left: -5%; opacity: 0; transform: rotate(-20deg); }
+    5% { opacity: 1; }
+    40% { top: 35%; left: 110%; opacity: 0; }
+    100% { top: 35%; left: 110%; opacity: 0; }
+  }
+
+  /* Gradient glow background */
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 20% 30%, rgba(30, 80, 160, 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 70%, rgba(10, 40, 100, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Floating matcha cups */
+  .floaties {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .floatie {
+    position: absolute;
+    bottom: -120px;
+    opacity: 0;
+    animation: floatUp var(--dur) ease-in-out var(--delay) infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    90% { opacity: 0.25; }
+    100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+  }
+
+  /* Main container */
+  .container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 100px;
+  }
+
+  /* Moon */
+  .moon-wrap {
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeDown 1.2s ease-out 0.2s forwards;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .moon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: -16px 4px 0 6px var(--gold);
+    filter: drop-shadow(0 0 16px rgba(201, 168, 76, 0.45));
+  }
+
+  /* Card */
+  .card {
+    background: linear-gradient(160deg, rgba(14, 30, 56, 0.97), rgba(7, 17, 31, 0.99));
+    border: 1px solid rgba(122, 179, 224, 0.18);
+    border-radius: 28px;
+    padding: 52px 44px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.03),
+      0 20px 80px rgba(0,0,0,0.6),
+      0 0 60px rgba(46,109,180,0.1);
+    opacity: 0;
+    animation: cardIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(50px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Top shimmer line */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--light-blue), var(--gold), transparent);
+    opacity: 0.6;
+  }
+
+  /* Corner ornaments */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(122,179,224,0.2), transparent);
+  }
+
+  .bismillah {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(201,168,76,0.6);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 0.8s forwards;
+  }
+
+  .eid-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.4rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: -1px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1s forwards;
+  }
+
+  .eid-main em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .recipient {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.9rem;
+    font-weight: 300;
+    color: var(--light-blue);
+    margin: 10px 0 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.2s forwards;
+  }
+
+  /* Ornament divider */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto 26px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.3s forwards;
+  }
+
+  .orn-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35), transparent);
+  }
+
+  /* SVG ornament star */
+  .orn-star {
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+  }
+
+  .message {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(200,223,245,0.75);
+    line-height: 2;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.4s forwards;
+  }
+
+  .message strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+
+
+  /* Dua box */
+  .dua {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 26px;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.7s forwards;
+  }
+
+  .dua-arabic {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-bottom: 5px;
+    line-height: 1.6;
+  }
+
+  .dua-eng {
+    font-size: 0.72rem;
+    color: rgba(200,223,245,0.4);
+    letter-spacing: 0.8px;
+  }
+
+  /* Signature */
+  .sig {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(200,223,245,0.3);
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.9s forwards;
+  }
+
+  .sig span { color: rgba(122,179,224,0.5); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 40px 26px; }
+    .eid-main { font-size: 2.8rem; }
+    .recipient { font-size: 1.6rem; }
+    .icons-strip { gap: 10px; }
+    .icon-pill { padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="bg-glow"></div>
+<div class="shooting-star"></div>
+
+<div class="floaties" id="floaties"></div>
+
+<div class="container">
+  <div class="moon-wrap">
+    <div class="moon"></div>
+  </div>
+
+  <div class="card">
+    <p class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+
+    <h1 class="eid-main">Eid <em>Mubarak</em></h1>
+    <p class="recipient">Nurse Karimat 😊</p>
+
+    <div class="ornament">
+      <div class="orn-line"></div>
+      <svg class="orn-star" viewBox="0 0 24 24" fill="var(--gold)">
+        <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9"/>
+      </svg>
+      <div class="orn-line"></div>
+    </div>
+
+    <p class="message">
+      May this Eid bring you joy, ease, and every blessing you prayed for this Ramadan. May He continue to reward you for all the great things you do at Mumineen!!!!!!!!
+    </p>
+
+
+
+    <div class="dua">
+      <p class="dua-arabic">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُم</p>
+      <p class="dua-eng">Ki Ọlọun ṣo di next Ramadan ooo</p>
+    </div>
+
+    <p class="sig">with care, <span>Habeeb</span></p>
+  </div>
+</div>
+
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 140; i++) {
+    const s = document.createElement('div');
+    s.classList.add('star');
+    const size = Math.random() * 2.2 + 0.4;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      --dur:${(Math.random()*3+2).toFixed(1)}s;
+      --op:${(Math.random()*0.6+0.15).toFixed(2)};
+      animation-delay:${(Math.random()*5).toFixed(1)}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Floating elements
+  const floatiesEl = document.getElementById('floaties');
+
+  function strawberryMatchaSVG(size) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Steam -->
+      <path d="M19 10 Q17 7 19 4" stroke="rgba(240,180,190,0.4)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M24 9 Q22 6 24 3" stroke="rgba(240,180,190,0.4)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M29 10 Q27 7 29 4" stroke="rgba(240,180,190,0.4)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <!-- Cup body -->
+      <path d="M10 16 L13 40 Q13.5 43 17 43 L31 43 Q34.5 43 35 40 L38 16 Z" fill="rgba(240,150,170,0.2)" stroke="rgba(240,150,170,0.5)" stroke-width="1.2"/>
+      <!-- Handle -->
+      <path d="M38 22 Q44 22 44 28 Q44 34 38 34" stroke="rgba(240,150,170,0.5)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <!-- Strawberry matcha liquid - pink-green gradient effect -->
+      <ellipse cx="24" cy="17" rx="14" ry="3" fill="rgba(230,130,150,0.35)" stroke="rgba(240,150,170,0.45)" stroke-width="0.8"/>
+      <!-- Matcha layer below -->
+      <path d="M11 22 L12 30 Q12.2 32 15 32 L33 32 Q35.8 32 36 30 L37 22 Z" fill="rgba(125,184,125,0.15)"/>
+      <!-- Pink foam top -->
+      <path d="M14 17 Q19 14.5 24 16 Q29 14.5 34 17" stroke="rgba(255,200,210,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- Straw -->
+      <rect x="27" y="8" width="2.5" height="22" rx="1.2" fill="rgba(240,150,170,0.4)" stroke="rgba(240,150,170,0.6)" stroke-width="0.5"/>
+      <!-- Saucer -->
+      <ellipse cx="24" cy="43.5" rx="17" ry="2.8" fill="rgba(240,150,170,0.12)" stroke="rgba(240,150,170,0.25)" stroke-width="0.8"/>
+    </svg>`;
+  }
+
+  function catSVG(size) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body -->
+      <ellipse cx="24" cy="32" rx="14" ry="10" fill="rgba(122,179,224,0.2)" stroke="rgba(122,179,224,0.45)" stroke-width="1.2"/>
+      <!-- Head -->
+      <circle cx="24" cy="20" r="11" fill="rgba(122,179,224,0.2)" stroke="rgba(122,179,224,0.45)" stroke-width="1.2"/>
+      <!-- Ears -->
+      <polygon points="15,13 12,4 20,11" fill="rgba(122,179,224,0.3)" stroke="rgba(122,179,224,0.45)" stroke-width="1"/>
+      <polygon points="33,13 36,4 28,11" fill="rgba(122,179,224,0.3)" stroke="rgba(122,179,224,0.45)" stroke-width="1"/>
+      <!-- Eyes -->
+      <ellipse cx="20" cy="19" rx="2.2" ry="2.5" fill="rgba(7,17,31,0.8)"/>
+      <ellipse cx="28" cy="19" rx="2.2" ry="2.5" fill="rgba(7,17,31,0.8)"/>
+      <circle cx="20.7" cy="18.3" r="0.7" fill="rgba(255,255,255,0.7)"/>
+      <circle cx="28.7" cy="18.3" r="0.7" fill="rgba(255,255,255,0.7)"/>
+      <!-- Nose -->
+      <polygon points="24,23 22.5,24.5 25.5,24.5" fill="rgba(201,168,76,0.7)"/>
+      <!-- Mouth -->
+      <path d="M22.5,24.5 Q24,26.5 25.5,24.5" stroke="rgba(122,179,224,0.6)" stroke-width="0.8" fill="none"/>
+      <!-- Whiskers -->
+      <line x1="26" y1="23.5" x2="35" y2="22" stroke="rgba(200,223,245,0.4)" stroke-width="0.8"/>
+      <line x1="26" y1="24.5" x2="35" y2="25.5" stroke="rgba(200,223,245,0.4)" stroke-width="0.8"/>
+      <line x1="22" y1="23.5" x2="13" y2="22" stroke="rgba(200,223,245,0.4)" stroke-width="0.8"/>
+      <line x1="22" y1="24.5" x2="13" y2="25.5" stroke="rgba(200,223,245,0.4)" stroke-width="0.8"/>
+      <!-- Tail -->
+      <path d="M10,32 Q4,26 6,20 Q8,14 13,16" stroke="rgba(122,179,224,0.45)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Gold collar -->
+      <path d="M15,28 Q24,31 33,28" stroke="rgba(201,168,76,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="24" cy="30.5" r="1.5" fill="rgba(201,168,76,0.5)"/>
+    </svg>`;
+  }
+
+  function spawnFloatie(type) {
+    const el = document.createElement('div');
+    el.classList.add('floatie');
+    const size = Math.floor(Math.random() * 24 + 22);
+    const dur = (Math.random() * 10 + 9).toFixed(1);
+    const delay = (Math.random() * 2).toFixed(1);
+    el.style.cssText = `left: ${Math.random() * 92}%; --dur: ${dur}s; --delay: ${delay}s;`;
+    el.innerHTML = type === 'matcha' ? strawberryMatchaSVG(size) : catSVG(size);
+    floatiesEl.appendChild(el);
+    setTimeout(() => el.remove(), (parseFloat(dur) + parseFloat(delay) + 2) * 1000);
+  }
+
+  const types = ['matcha', 'matcha', 'cat', 'matcha', 'cat', 'matcha'];
+  for (let i = 0; i < 7; i++) setTimeout(() => spawnFloatie(types[i % types.length]), i * 1000);
+  setInterval(() => spawnFloatie(Math.random() > 0.4 ? 'matcha' : 'cat'), 2200);
+</script>
+</body>
+</html>
